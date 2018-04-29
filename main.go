@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
 type BinaryPuzzle struct {
@@ -20,11 +21,15 @@ func main() {
 		log.Fatal(err)
 	}
 	binarypuzzle.Print()
+	start := time.Now()
 	success := binarypuzzle.Solve()
+	end := time.Now()
 	if !success {
 		log.Fatal("Couldn't solve")
 	}
 	binarypuzzle.Print()
+
+	fmt.Println("Time elapsed: " + strconv.Itoa(end.Nanosecond()-start.Nanosecond()) + "ns")
 }
 
 // Checks whether the puzzle is successful so far
