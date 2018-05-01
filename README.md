@@ -7,7 +7,13 @@ A binary puzzle is a puzzle that consists of a square grid partially filled with
 This program will take a binary puzzle and give you its solution
 
 ## Input
-This program expects a puzzle from stdin in a special format. The first line is an integer `n`, the width and height of the grid. The next `n` lines are strings with the length of `n`. Each character in the string is either a `0`, a `1` or a `?`. 
+This program expects a puzzle from stdin in a special format. The first line is an integer `n`, the width and height of the grid. The next `n` lines are strings with the length of `n`. Each character in the string is either a `0`, a `1` or a `?`. An example:
+
+    4
+    11?0
+    ??1?
+    0??1
+    ??0?
 
 
 
