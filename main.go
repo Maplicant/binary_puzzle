@@ -32,6 +32,72 @@ func main() {
 	fmt.Println("Time elapsed: " + strconv.Itoa(end.Nanosecond()-start.Nanosecond()) + "ns")
 }
 
+func (b BinaryPuzzle) Deduct() {
+	for row := 0; row < b.Length; row++ {
+		if b.Matrix[row][0] == b.Matrix[row][1] {
+			if b.Matrix[row][0] == '1' {
+				b.Matrix[row][2] = '0'
+			} else {
+				b.Matrix[row][2] = '1'
+			}
+		}
+		if b.Matrix[row][b.Length-1] == b.Matrix[row][b.Length-2] {
+			if b.Matrix[row][b.Length-1] == '1' {
+				b.Matrix[row][b.Length-3] = '0'
+			} else {
+				b.Matrix[row][b.Length-3] = '1'
+			}
+		}
+		for column := 1; column < b.Length-2; column++ {
+			if b.Matrix[row][column] == '?' {
+				continue
+			}
+			if b.Matrix[row][column] == b.Matrix[row][column+1] {
+				if b.Matrix[row][column] == '1' {
+					b.Matrix[row][column-1] = '0'
+					b.Matrix[row][column+2] = '0'
+				} else {
+					b.Matrix[row][column-1] = '1'
+					b.Matrix[row][column+2] = '1'
+				}
+			}
+		}
+	}
+
+	for column := 0; column < b.Length; column++ {
+		if b.Matrix[0][column] == b.Matrix[1][column] {
+			if b.Matrix[0][column] == '1' {
+				b.Matrix[2][column] = '0'
+			} else {
+				b.Matrix[2][column] = '1'
+			}
+		}
+		if b.Matrix[b.Length-1][column] == b.Matrix[b.Length-2][column] {
+			if b.Matrix[b.Length-1][column] == '1' {
+				b.Matrix[b.Length-3][column] = '0'
+			} else {
+				b.Matrix[b.Length-3][column] = '1'
+			}
+		}
+		for row := 1; row < b.Length-2; row++ {
+			if b.Matrix[row][column] == '?' {
+				continue
+			}
+			if b.Matrix[row][column] == b.Matrix[row+1][column] {
+				b.Print()
+				fmt.Println(row, column)
+				if b.Matrix[row][column] == '1' {
+					b.Matrix[row-1][column] = '0'
+					b.Matrix[row+2][column] = '0'
+				} else {
+					b.Matrix[row-1][column] = '1'
+					b.Matrix[row+2][column] = '1'
+				}
+			}
+		}
+	}
+}
+
 // Checks whether the puzzle is successful so far
 func (b BinaryPuzzle) IsCorrect() bool {
 	// We check every row
@@ -101,6 +167,8 @@ func (b BinaryPuzzle) IsCorrect() bool {
 
 // Backtracking algorithm
 func (b BinaryPuzzle) Solve() bool {
+	b.Deduct()
+	// b.Print()
 	success := b.IsCorrect()
 	if !success { // It's unsolvable
 		return false
